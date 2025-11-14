@@ -15,6 +15,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     // Translates automatically into SQL:
     // SELECT * FROM products WHERE category_id = ?;
     List<Product> findByCategory(Category category);
+    List<Product> findByCategory_Id(Long categoryId);
+
 
 
 }
