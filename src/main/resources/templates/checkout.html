@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout</title>
+
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f8f8f8; margin: 40px; }
+        h1 { color: #333; }
+        table { width: 100%; border-collapse: collapse; background-color: white; margin-bottom: 20px; }
+        th, td { padding: 10px; border-bottom: 1px solid #ddd; text-align: left; }
+        th { background-color: #f0f0f0; }
+        button { background-color: #28a745; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; }
+        button:hover { background-color: #218838; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .message { color: red; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>🧾 Checkout</h1>
+
+<!-- Show message if cart is empty -->
+<p th:if="${message}" th:text="${message}" class="message"></p>
+
+<!-- Table showing the products inside the cart -->
+<table>
+    <thead>
+    <tr>
+        <th>Product</th>
+        <th>Description</th>
+        <th>Category ID</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Loop through each product in the cart -->
+    <tr th:each="item : ${cart}">
+        <td th:text="${item.name}">Product name</td>
+        <td th:text="${item.description}">Product description</td>
+        <td th:text="${item.category.id}">Category ID</td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Button to confirm and submit the checkout -->
+<form action="/checkout/confirm" method="post">
+    <!-- This button will trigger the POST method in OrderController -->
+    <button type="submit">✅ Confirm Order</button>
+</form>
+
+<!-- Link to go back to cart -->
+<p><a href="/cart">⬅ Back to Cart</a></p>
+
+</body>
+</html>
