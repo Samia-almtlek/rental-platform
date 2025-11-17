@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Confirmation</title>
+
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #eef7ee; margin: 40px; text-align: center; }
+        h1 { color: #2c662d; }
+        p { font-size: 18px; color: #444; }
+        table { width: 70%; margin: 20px auto; border-collapse: collapse; background-color: white; }
+        th, td { padding: 10px; border: 1px solid #ccc; text-align: left; }
+        th { background-color: #f0f0f0; }
+        a { display: inline-block; margin-top: 20px; color: #007bff; text-decoration: none; font-size: 16px; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<h1>✅ Order Confirmed!</h1>
+
+<!-- Show order details -->
+<p>Your order has been successfully placed.</p>
+
+<!-- Table showing order info -->
+<table>
+    <tr>
+        <th>Order ID</th>
+        <td th:text="${order.id}">1</td>
+    </tr>
+    <tr>
+        <th>Status</th>
+        <td th:text="${order.status}">Confirmed</td>
+    </tr>
+    <tr>
+        <th>Start Date</th>
+        <td th:text="${order.startDate}">2025-11-14</td>
+    </tr>
+    <tr>
+        <th>End Date</th>
+        <td th:text="${order.endDate}">2025-11-21</td>
+    </tr>
+</table>
+
+<!-- Back to catalog -->
+<a href="/products">⬅ Back to Product Catalog</a>
+
+</body>
+</html>
