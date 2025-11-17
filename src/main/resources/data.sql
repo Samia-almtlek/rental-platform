@@ -13,6 +13,5 @@ VALUES (1, 'LED Spotlight', 'High power LED spotlight with adjustable brightness
        (5, 'Light Controller', 'Controller for stage light effects', true, 3),
        (6, 'Sound Mixer', 'Professional audio mixing panel', true, 3);
 
--- ========== USERS ==========
-INSERT INTO users (id, name, email, password, role)
-VALUES (1, 'Admin User', 'admin@example.com', 'password123', 'ADMIN');
+
+
