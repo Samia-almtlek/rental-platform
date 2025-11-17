@@ -1,6 +1,8 @@
 package com.ehb.rental.rentalplatform.model;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 
 @Entity
 @Table(name = "users")
@@ -21,6 +23,10 @@ public class User {
 
     @Column(nullable = false)
     private String role;
+
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders;
+
 
     //  Constructors
     public User() {}
