@@ -22,15 +22,24 @@
         <th>Name</th>
         <th>Description</th>
         <th>Category ID</th>
+        <th>Start Date</th>
+        <th>End Date</th>
         <th>Action</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="item : ${cart}">
-        <td th:text="${item.name}"></td>
-        <td th:text="${item.description}"></td>
-        <td th:text="${item.category.id}"></td>
-        <td><a th:href="@{'/cart/remove/' + ${item.id}}">Remove</a></td>
+        <td th:text="${item.product.name}"></td>
+        <td th:text="${item.product.description}"></td>
+        <td th:text="${item.product.category.id}"></td>
+
+        <!-- NEW -->
+        <td th:text="${item.startDate}"></td>
+        <td th:text="${item.endDate}"></td>
+
+        <td>
+            <a th:href="@{'/cart/remove/' + ${item.product.id}}">Remove</a>
+        </td>
     </tr>
     </tbody>
 </table>
