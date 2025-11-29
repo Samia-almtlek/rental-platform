@@ -2,6 +2,7 @@ package com.ehb.rental.rentalplatform.controller;
 
 
 // Importing the necessary classes
+import com.ehb.rental.rentalplatform.model.CartItem;
 import com.ehb.rental.rentalplatform.model.Order;
 import com.ehb.rental.rentalplatform.model.Product;
 import com.ehb.rental.rentalplatform.repository.OrderRepository;
@@ -36,7 +37,7 @@ public class OrderController {
     public String showCheckoutPage(HttpSession session, Model model) {
 
         // Retrieve the "cart" object from the user's session
-        List<Product> cart = (List<Product>) session.getAttribute("cart");
+        List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
 
         // Add the cart to the model so it can be displayed in the view (checkout.html)
         model.addAttribute("cart", cart);
@@ -52,7 +53,7 @@ public class OrderController {
     public String confirmOrder(HttpSession session, Model model) {
 
         // Retrieve the cart items again from the session
-        List<Product> cart = (List<Product>) session.getAttribute("cart");
+        List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
 
         // Check if the cart is empty or null
         if (cart == null || cart.isEmpty()) {
@@ -65,13 +66,18 @@ public class OrderController {
         Order order = new Order();
 
         // Assign the list of products from the cart to the order
-        order.setProducts(cart);
+        List<Product> products =
+                cart.stream()
+                        .map(CartItem::getProduct)
+                                .toList();
+        order.setProducts(products);
 
-        // Set the starting date of the order (today)
-        order.setStartDate(LocalDate.now());
+        //Date
+        LocalDate startDate = cart.get(0).getStartDate();
+        LocalDate endDate = cart.get(0).getEndDate();
 
-        // Set the ending date (example: 7 days later)
-        order.setEndDate(LocalDate.now().plusDays(7));
+        order.setStartDate(startDate);
+        order.setEndDate(endDate);
 
         // Set the status of the order to "Confirmed"
         order.setStatus("Confirmed");
