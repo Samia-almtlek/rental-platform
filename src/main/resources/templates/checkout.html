@@ -31,14 +31,19 @@
         <th>Product</th>
         <th>Description</th>
         <th>Category ID</th>
+        <th>Start Date</th>
+        <th>End Date</th>
     </tr>
     </thead>
     <tbody>
     <!-- Loop through each product in the cart -->
     <tr th:each="item : ${cart}">
-        <td th:text="${item.name}">Product name</td>
-        <td th:text="${item.description}">Product description</td>
-        <td th:text="${item.category.id}">Category ID</td>
+        <td th:text="${item.product.name}">Product name</td>
+        <td th:text="${item.product.description}">Product description</td>
+        <td th:text="${item.product.category.id}">Category ID</td>
+
+        <td th:text="${item.startDate}"></td>
+        <td th:text="${item.endDate}"></td>
     </tr>
     </tbody>
 </table>
