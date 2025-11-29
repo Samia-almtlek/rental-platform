@@ -75,7 +75,17 @@
             <span th:if="${!product.available}" class="not-available">Not Available</span>
         </p>
         <p><strong>Category ID:</strong> <span th:text="${product.category.id}"></span></p>
-        <a th:href="@{'/cart/add/' + ${product.id}}" class="add-button">🛒 Add to Cart</a>
+        <form th:action="@{/cart/add}" method="post">
+            <input type="hidden" name="productId" th:value="${product.id}"/>
+
+            <label>From:</label>
+            <input type="date" name="startDate" required>
+
+            <label>To:</label>
+            <input type="date" name="endDate" required>
+
+            <button type="submit" class="add-button">🛒 Add to Cart</button>
+        </form>
 
     </div>
 </div>
