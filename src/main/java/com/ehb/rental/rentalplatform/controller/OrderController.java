@@ -101,5 +101,26 @@ public class OrderController {
         // Redirect the user to the confirmation page
         return "confirmation";
     }
+    // ===========================================================
+// === STEP 3: Show all orders of the current user (GET /my-orders) ===
+// ===========================================================
+    @GetMapping("/my-orders")
+    public String showMyOrders(Model model) {
+
+        // Get logged-in user
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+
+        User user = userRepository.findByEmail(email);
+
+        // Get all orders of this user
+        List<Order> orders = orderRepository.findByUser_Id(user.getId());
+
+        // Send orders to the HTML page
+        model.addAttribute("orders", orders);
+
+        return "my-orders";
+    }
+
 }
 
