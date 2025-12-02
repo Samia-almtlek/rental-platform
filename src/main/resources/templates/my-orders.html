@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>My Orders</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<!-- 🔥 NAVBAR -->
+<th:block th:replace="fragments :: navbar"></th:block>
+
+<h1> My Orders</h1>
+
+<div class="table-container">
+
+    <table>
+        <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Status</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Products</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="order : ${orders}">
+            <td th:text="${order.id}"></td>
+            <td th:text="${order.status}"></td>
+            <td th:text="${order.startDate}"></td>
+            <td th:text="${order.endDate}"></td>
+
+            <td>
+                <ul style="margin:0; padding-left:18px;">
+                    <li th:each="p : ${order.products}"
+                        th:text="${p.name}"></li>
+                </ul>
+            </td>
+        </tr>
+        </tbody>
+
+    </table>
+
+</div>
+
+<!-- 🔥 FOOTER -->
+<th:block th:replace="fragments :: footer"></th:block>
+
+</body>
+</html>
