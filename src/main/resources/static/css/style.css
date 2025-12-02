@@ -1,0 +1,299 @@
+/* ---------------------------------------------------
+   GENERAL STYLE
+--------------------------------------------------- */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    font-family: 'Arial', sans-serif;
+}
+
+/* ---------------------------------------------------
+   NAVBAR STYLE
+--------------------------------------------------- */
+.navbar {
+    background-color: #6A1B29; /* عنابي */
+    color: white;
+    padding: 15px 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.20);
+}
+
+.nav-left a, .nav-right a {
+    color: white;
+    text-decoration: none;
+    margin-right: 22px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.nav-left a:hover, .nav-right a:hover {
+    color: #F8D7DA; /* وردي فاتح */
+}
+
+.username {
+    margin-right: 20px;
+    font-weight: bold;
+    color: #F8D7DA;
+}
+
+/* ---------------------------------------------------
+   FOOTER
+--------------------------------------------------- */
+.footer {
+    background-color: #6A1B29;
+    color: #f0f0f0;
+    padding: 15px;
+    text-align: center;
+    margin-top: 40px;
+    font-size: 14px;
+}
+
+/* ---------------------------------------------------
+   PRODUCT CARDS
+--------------------------------------------------- */
+.product-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+    padding: 20px 40px;
+}
+
+.product-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+    transition: 0.2s ease-in-out;
+    border-left: 5px solid #6A1B29;
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.available {
+    color: #2ecc71;
+    font-weight: bold;
+}
+
+.not-available {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+.add-button {
+    background-color: #8B2E3C; /* عنابي أفتح */
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.add-button:hover {
+    background-color: #6A1B29;
+}
+
+/* ---------------------------------------------------
+   FORMS (Login, Register, Checkout)
+--------------------------------------------------- */
+form {
+    margin-top: 10px;
+}
+
+input[type="text"], input[type="password"], input[type="email"], input[type="date"] {
+    padding: 8px;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    width: 100%;
+    margin-top: 5px;
+}
+
+button {
+    background-color: #6A1B29;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #8B2E3C;
+}
+
+/* Dropdown */
+select {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #bbb;
+}
+
+/* ---------------------------------------------------
+   TABLE STYLE (Cart, Orders, Checkout)
+--------------------------------------------------- */
+.table-container {
+    margin: 30px auto;
+    width: 90%;
+    max-width: 1000px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+th {
+    background-color: #6A1B29;
+    color: white;
+    text-align: left;
+    padding: 12px;
+    font-size: 15px;
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+}
+
+tr:hover {
+    background-color: #f9e9eb; /* subtle pink-anabi hover */
+}
+
+.action-link {
+    color: #8B2E3C;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.action-link:hover {
+    text-decoration: underline;
+}
+
+/* Checkout button */
+.checkout-btn {
+    padding: 10px 18px;
+    background-color: #6A1B29;
+    border: none;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.checkout-btn:hover {
+    background-color: #8B2E3C;
+}
+/* ---------------------------------------------------
+   AUTH PAGES (Login & Register)
+--------------------------------------------------- */
+
+/* Header bar without navbar links */
+.auth-header {
+    background-color: #6A1B29;
+    height: 70px;
+    width: 100%;
+}
+
+/* Centered Card */
+.auth-container {
+    width: 350px;
+    margin: 40px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.auth-container h2 {
+    text-align: center;
+    color: #6A1B29;
+}
+
+.auth-input {
+    width: 100%;
+    padding: 6px;  /* ← أصغر */
+    margin-top: 6px;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.auth-button {
+    width: 100%;
+    padding: 8px;
+    background-color: #6A1B29;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    margin-top: 15px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.auth-button:hover {
+    background-color: #8B2E3C;
+}
+
+.auth-link {
+    text-align: center;
+    margin-top: 12px;
+    font-size: 14px;
+}
+
+.auth-link a {
+    color: #6A1B29;
+    text-decoration: none;
+}
+
+.auth-link a:hover {
+    text-decoration: underline;
+}
+/* Center checkout button */
+.center-btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+/* ---------------------------------------------------
+   PAGE TITLES (Center all H1)
+--------------------------------------------------- */
+h1 {
+    text-align: center;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    font-size: 28px;
+    color: #6A1B29;
+}
+/* ---------------------------------------------------
+   FILTER DROPDOWN CENTER
+--------------------------------------------------- */
+.filter-container {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.filter-container label {
+    font-size: 16px;
+    margin-right: 8px;
+    color: #6A1B29;
+}
+
+.filter-container select {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #bbb;
+    font-size: 15px;
+}
