@@ -1,20 +1,23 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Your Cart</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f9f9f9; }
-        h1 { color: #333; }
-        table { width: 100%; border-collapse: collapse; background: white; }
-        th, td { padding: 10px; border-bottom: 1px solid #ddd; text-align: left; }
-        a { color: darkred; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+
+
 </head>
+
 <body>
 
-<h1>🛒 Your Shopping Cart</h1>
+<!-- 🔥 NAVBAR -->
+<th:block th:replace="fragments :: navbar"></th:block>
+
+
+<h1> Your Shopping Cart:</h1>
+<div class="table-container">
 
 <table>
     <thead>
@@ -27,28 +30,38 @@
         <th>Action</th>
     </tr>
     </thead>
+
     <tbody>
     <tr th:each="item : ${cart}">
         <td th:text="${item.product.name}"></td>
         <td th:text="${item.product.description}"></td>
         <td th:text="${item.product.category.id}"></td>
 
-        <!-- NEW -->
+        <!-- Rental dates -->
         <td th:text="${item.startDate}"></td>
         <td th:text="${item.endDate}"></td>
 
         <td>
-            <a th:href="@{'/cart/remove/' + ${item.product.id}}">Remove</a>
+            <a class="action-link" th:href="@{'/cart/remove/' + ${item.product.id}}">Remove</a>
         </td>
     </tr>
     </tbody>
 </table>
-<!-- ✅ NEW BUTTON TO GO TO CHECKOUT -->
-<form action="/checkout" method="get">
-    <button type="submit" class="checkout-btn">Proceed to Checkout ✅</button>
-</form>
+</div>
 
+<!-- Checkout button -->
+<div class="center-btn">
+    <form action="/checkout" method="get">
+        <button type="submit" class="checkout-btn">Proceed to Checkout </button>
+    </form>
+</div>
+
+<p style="text-align: center; margin-top: 10px;">
 <a href="/products">⬅ Back to Products</a>
+</p>
+
+<!-- 🔥 FOOTER -->
+<th:block th:replace="fragments :: footer"></th:block>
 
 </body>
 </html>

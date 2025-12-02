@@ -1,82 +1,70 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
     <meta charset="UTF-8">
     <title>Product Catalog</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-            background-color: #f5f5f5;
-        }
-        h1 {
-            color: #333;
-        }
-        .product-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-        }
-        .product-card {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        .product-card h3 {
-            margin-top: 0;
-        }
-        .available {
-            color: green;
-            font-weight: bold;
-        }
-        .not-available {
-            color: red;
-            font-weight: bold;
-            .add-button {
-                display: inline-block;
-                padding: 8px 12px;
-                background-color: #007bff;
-                color: white;
-                border-radius: 6px;
-                text-decoration: none;
-                font-size: 14px;
-            }
-            .add-button:hover {
-                background-color: #0056b3;
-            }
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 
-        }
-    </style>
+
+
 </head>
+
 <body>
 
-<h1>📦 Product Catalog</h1>
-<!-- Category Filter Links -->
-<div>
-    <h2>Filter by Category</h2>
-    <ul>
-        <li><a th:href="@{/products}">All Products</a></li>
-        <li><a th:href="@{/products/category/1}">Lighting</a></li>
-        <li><a th:href="@{/products/category/2}">Cables</a></li>
-        <li><a th:href="@{/products/category/3}">Control Panels</a></li>
-    </ul>
-</div>
+<!-- 🔥 NAVBAR -->
+<th:block th:replace="fragments :: navbar"></th:block>
 
+<h1> Product Catalog</h1>
+
+<!-- CATEGORY DROPDOWN FILTER (PURE THYMELEAF, NO JS) -->
+
+<form method="get" th:action="@{/products}" class="filter-container">
+    <label><strong>Filter by Category:</strong></label>
+
+    <select name="category" onchange="this.form.submit()">
+        <option th:value="all"
+                th:selected="${currentCategory == 'all'}">
+            All Products
+        </option>
+
+        <option th:value="1"
+                th:selected="${currentCategory == '1'}">
+            Lighting
+        </option>
+
+        <option th:value="2"
+                th:selected="${currentCategory == '2'}">
+            Cables
+        </option>
+
+        <option th:value="3"
+                th:selected="${currentCategory == '3'}">
+            Control Panels
+        </option>
+    </select>
+</form>
 
 <div class="product-list">
-    <!-- Thymeleaf loop -->
+
+    <!-- PRODUCT LOOP -->
     <div th:each="product : ${products}" class="product-card">
 
         <h3 th:text="${product.name}">Product Name</h3>
-        <p th:text="${product.description}">Product description</p>
+
+        <p th:text="${product.description}"></p>
+
         <p>
             <span th:if="${product.available}" class="available">Available</span>
             <span th:if="${!product.available}" class="not-available">Not Available</span>
         </p>
+
         <p><strong>Category ID:</strong> <span th:text="${product.category.id}"></span></p>
+
+        <!-- RENTAL FORM -->
         <form th:action="@{/cart/add}" method="post">
-            <input type="hidden" name="productId" th:value="${product.id}"/>
+            <input type="hidden" name="productId" th:value="${product.id}" />
 
             <label>From:</label>
             <input type="date" name="startDate" required>
@@ -89,6 +77,9 @@
 
     </div>
 </div>
+
+<!-- 🔥 FOOTER -->
+<th:block th:replace="fragments :: footer"></th:block>
 
 </body>
 </html>
