@@ -297,3 +297,13 @@ h1 {
     border: 1px solid #bbb;
     font-size: 15px;
 }
+.auth-error {
+    background-color: #ffebee;
+    border-left: 4px solid #c62828;
+    padding: 10px;
+    color: #c62828;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
