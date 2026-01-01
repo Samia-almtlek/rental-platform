@@ -1,5 +1,4 @@
-
-#  Rental Platform — Spring Boot 
+#  Rental Platform — Spring Boot
 
 This project is a proof-of-concept rental platform for an art school, where students can reserve and rent equipment such as lighting, cables, and control panels.
 Registered users can browse a product catalog, filter by category, add items to a cart, and confirm their reservation through a checkout flow.
@@ -28,7 +27,9 @@ The project is built with **Spring Boot, Spring MVC, Spring Security, JPA, H2 Da
 
 ###  User System
 
-* User registration
+* User registration with validation
+* Email must be an EhB student email (`@student.ehb.be`)
+* Password confirmation + password strength validation
 * Secure login using **Spring Security + BCrypt**
 * Orders linked to the logged-in user
 
@@ -67,6 +68,15 @@ src/main/java/com/ehb/rental/rentalplatform/
 * Logout endpoint
 * Public pages: /login, /register, static files
 * All other routes require authentication
+
+
+### Registration Validation
+
+The registration form includes multiple security checks:
+* Only EhB student emails are allowed (`@student.ehb.be`)
+* Duplicate emails are blocked
+* Password must match confirmation field
+* Strong password policy (min 8 chars, upper/lowercase, number, symbol)
 
 
 
@@ -144,11 +154,6 @@ Below are the official and tutorial sources used while developing this project:
 
 
 
-###  ChatGPT 
+###  ChatGPT
 
 * [https://chatgpt.com/c/69334edf-6fd0-832c-b803-1ffa1dcd0692](https://chatgpt.com/c/69334edf-6fd0-832c-b803-1ffa1dcd0692)
-
-
-
-
-
