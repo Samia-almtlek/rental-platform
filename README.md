@@ -99,6 +99,7 @@ The registration form includes multiple security checks:
    ```
    http://localhost:8080/h2-console
    JDBC URL: jdbc:h2:mem:rentaldb
+   Username: sa
    ```
 5. Visit the website:
 
