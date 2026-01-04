@@ -1,69 +1,78 @@
-# API Endpoints 
+# **API Endpoints**
 
-This document lists all main endpoints in the rental platform and their purpose.  
-The application uses Spring MVC with Thymeleaf templates, so all endpoints return HTML views.
+This document lists all main endpoints in the rental platform and their purpose.
+The platform uses **Spring MVC + Thymeleaf**, so all endpoints return HTML views.
 
 
 
-## 1. Authentication
+### ***1. Authentication***
 
-### GET /login
+#### **GET /login**
+
 Displays the login page.
 
-### GET /register
+#### **GET /register**
+
 Displays the user registration form.
 
-### POST /register
-Creates a new user with:
+#### **POST /register**
 
-- BCrypt password encryption
+Creates a new user with the following validations:
 
-- Email uniqueness check
-
-- Email must end with @student.ehb.be
-
-- Password + Confirm Password
-
-- Strong password validation (min 8 chars, upper, lower, digit, special char)
+* BCrypt password encryption
+* Email must be unique
+* Email must end with **@student.ehb.be**
+* Password must match Confirm Password
+* Strong password (min 8 chars, uppercase, lowercase, digit, symbol)
 
 
-## 2. Product Catalog
 
-### GET /products
+### ***2. Product Catalog***
+
+#### **GET /products**
+
 Displays all products.
 
 **Optional query parameter:**
-- `?category=ID` → filters products by category
-- `?category=all` → shows all products
+
+* `?category=ID` → filters products by category ID
+* `?category=all` → shows all products
 
 
 
-## 3. Cart
+### ***3. Cart***
 
-### GET /cart
+#### **GET /cart**
+
 Shows cart contents stored in the session.
 
-### POST /cart/add
+#### **POST /cart/add**
+
 Adds a product to the cart.
 
-Parameters:
-- `productId`
-- `startDate`
-- `endDate`
+**Parameters:**
 
-### GET /cart/remove/{id}
+* `productId`
+* `startDate`
+* `endDate`
+
+#### **GET /cart/remove/{id}**
+
 Removes a product from the cart.
 
 
 
-## 4. Checkout & Orders
+### ***4. Checkout & Orders***
 
-### GET /checkout
-Displays the checkout page with cart details.
+#### **GET /checkout**
 
-### POST /checkout/confirm
-Creates an order, saves it to the database, clears the cart, and shows the confirmation page.
+Displays the checkout page.
 
-### GET /my-orders
+#### **POST /checkout/confirm**
+
+Creates a new order, saves it to the database, clears the cart, and shows the confirmation page.
+
+#### **GET /my-orders**
+
 Displays all orders of the logged-in user.
 

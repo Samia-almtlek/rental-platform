@@ -1,73 +1,189 @@
-# Entities Documentation 
+# Entities Documentation
 
-This document summarizes the main entities used in the Rental Platform.  
-Only essential fields, relationships, and purposes are included to provide a clear overview.
-
-
-
-## 1. Product
-Represents an item that can be rented.
-
-**Fields:** id, name, description, available, category  
-**Relationship:**
-- Many-to-One → Category
-
-**Purpose:**  
-Displayed in the catalog and selected by users before adding to the cart.
+This section documents all data models used in the Rental Platform.
+These entities define the database schema (via JPA) and the domain logic used throughout the application.
 
 
 
-## 2. Category
-Represents a group/type of products (e.g., lighting, cables).
+### ***1. User Entity***
 
-**Fields:** id, name, description, products  
-**Relationship:**
-- One-to-Many → Products
+**Path:**
+`com.ehb.rental.rentalplatform.model.User`
 
-**Purpose:**  
-Enables catalog filtering and organization.
-
-
-
-## 3. CartItem (Not Persisted)
-Temporary item stored in the user session during shopping.
-
-**Fields:** product, startDate, endDate  
-**Persistence:** In-memory only (no JPA annotations)
-
-**Purpose:**  
-Simplifies the cart functionality required for the proof-of-concept.
-
-
-
-## 4. Order
-Represents a finalized rental, including rental period and selected products.
-
-**Fields:** id, startDate, endDate, status, user, products  
-**Relationships:**
-- Many-to-One → User
-- Many-to-Many → Products
-
-**Purpose:**  
-Stores confirmed rentals and links them to the user.
-
-
-
-## 5. User
 Represents a registered platform user.
+Each user can have multiple orders.
 
-**Fields:** id, name, email, password, role, orders  
-**Relationship:**
-- One-to-Many → Orders
+**Table:** `users`
 
-**Purpose:**  
-Used for authentication, authorization, and linking orders to individuals.
+#### **Fields**
 
-**Note:**  
-Registration includes runtime validation on email format and password strength.
+| Field    | Type   | Description                        |
+| -------- | ------ | ---------------------------------- |
+| id       | Long   | Primary key                        |
+| name     | String | Full name of the user              |
+| email    | String | Unique login identifier            |
+| password | String | BCrypt-encrypted password          |
+| role     | String | Security role (USER, future ADMIN) |
+
+#### **Relationships**
+
+* **One-to-Many** (User → Orders)
+
+  ```
+  @OneToMany(mappedBy = "user")
+  private List<Order> orders;
+  ```
+
+#### **Purpose**
+
+Used for:
+
+* Authentication & login
+* Authorization (role-based security)
+* Linking orders to the logged-in user
 
 
-# Notes
-- The architecture remains intentionally simple due to the proof-of-concept nature of the assignment.
-- `CartItem` is stored in session memory to avoid unnecessary database complexity.
-- The Many-to-Many relation in `Order` is sufficient for the required functionality.
+
+### ***2. Product Entity***
+
+**Path:**
+`com.ehb.rental.rentalplatform.model.Product`
+
+Represents a rentable item in the product catalog.
+
+**Table:** `products`
+
+#### **Fields**
+
+| Field       | Type     | Description             |
+| ----------- | -------- | ----------------------- |
+| id          | Long     | Primary key             |
+| name        | String   | Product name            |
+| description | String   | Product details         |
+| available   | boolean  | Availability status     |
+| category    | Category | Category of the product |
+
+#### **Relationships**
+
+* **Many-to-One** (Product → Category)
+
+  ```
+  @ManyToOne
+  @JoinColumn(name = "category_id")
+  private Category category;
+  ```
+
+#### **Purpose**
+
+Displayed in the catalog, can be filtered by category, added to cart, and included in orders.
+
+
+
+### ***3. Category Entity***
+
+**Path:**
+`com.ehb.rental.rentalplatform.model.Category`
+
+Represents a category of products (Lighting, Cables, etc.).
+
+**Table:** `categories`
+
+#### **Fields**
+
+| Field       | Type   | Description               |
+| ----------- | ------ | ------------------------- |
+| id          | Long   | Primary key               |
+| name        | String | Category name             |
+| description | String | Summary                   |
+| products    | List   | Products in this category |
+
+#### **Relationships**
+
+* **One-to-Many** (Category → Products)
+
+  ```
+  @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+  private List<Product> products;
+  ```
+
+#### **Purpose**
+
+Used to structure and filter the catalog by product type.
+
+
+
+### ***4. Order Entity***
+
+**Path:**
+`com.ehb.rental.rentalplatform.model.Order`
+
+Represents a confirmed rental order with dates and multiple products.
+
+**Table:** `orders`
+
+#### **Fields**
+
+| Field     | Type      | Description        |
+| --------- | --------- | ------------------ |
+| id        | Long      | Primary key        |
+| startDate | LocalDate | Rental start date  |
+| endDate   | LocalDate | Rental end date    |
+| status    | String    | Order status       |
+| user      | User      | Owner of the order |
+| products  | List      | Rented products    |
+
+#### **Relationships**
+
+* **Many-to-One** (Order → User)
+
+  ```
+  @ManyToOne
+  @JoinColumn(name = "user_id")
+  private User user;
+  ```
+
+* **Many-to-Many** (Order ↔ Product)
+
+  ```
+  @ManyToMany
+  @JoinTable(
+      name = "order_products",
+      joinColumns = @JoinColumn(name = "order_id"),
+      inverseJoinColumns = @JoinColumn(name = "product_id")
+  )
+  private List<Product> products;
+  ```
+
+#### **Purpose**
+
+Stores all confirmed rentals so the system can:
+
+* Generate order confirmation
+* Track rental history
+* Attach orders to the logged-in user
+
+
+
+### ***5. CartItem (Not Persisted)***
+
+**Path:**
+`com.ehb.rental.rentalplatform.model.CartItem`
+
+Used only during the shopping process.
+Stored in the session and **not** in the database.
+
+**Table:** *Not stored* (no JPA annotations)
+
+#### **Fields**
+
+| Field     | Type      | Description       |
+| --------- | --------- | ----------------- |
+| product   | Product   | Selected product  |
+| startDate | LocalDate | Rental start date |
+| endDate   | LocalDate | Rental end date   |
+
+#### **Purpose**
+
+Represents one item in the shopping cart before confirmation.
+Simplifies the checkout flow without needing database persistence.
+

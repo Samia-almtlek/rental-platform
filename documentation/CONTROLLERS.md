@@ -1,73 +1,146 @@
-# Controllers Documentation 
-
-This project uses several Spring MVC controllers to handle the main application workflow.  
-Each controller is responsible for specific functionality such as authentication, product display, cart management, and checkout.
 
 
+# Controllers Documentation
 
-##  AuthController
+The Rental Platform follows a clear MVC structure.
+Each controller is responsible for a specific part of the application flow, from authentication to cart management and checkout.
+All controllers return Thymeleaf HTML pages and interact with repository/model layers when needed.
+
+
+
+### ***1. AuthController***
+
+**Path:**
+`com.ehb.rental.rentalplatform.controller.AuthController`
+
+**Purpose:**
 Handles the login page.
+Authentication itself is performed by Spring Security.
 
-- `GET /login` → Returns the login view.
+**Endpoints:**
 
-Purpose: Provides the entry point for user authentication (actual login is handled by Spring Security).
-
-
-
-##  UserController
-Manages user registration with secure password hashing.
-
-- `GET /register` → Shows registration form
-- `POST /register` → Saves new user with encrypted password and default role `"USER"`
-
-Purpose:
-
-- Allows new users to register securely
-
-- Validates email format (@student.ehb.be only)
-
-- Prevents duplicate emails
-
-- Confirms password match
-
-- Enforces strong password rules
-
-- Encrypts passwords using BCrypt
-
-
-##  ProductController
-Displays product catalog and category filtering.
-
-- `GET /products`
-    - Shows all products or filters by category
-    - Sends product list to `products.html`
-
-Purpose: Implements the required catalog and filtering functionality.
+| Method | URL    | Description                           |
+| ------ | ------ | ------------------------------------- |
+| GET    | /login | Returns the login form (`login.html`) |
 
 
 
-##  CartController
-Manages a session-based shopping cart (not stored in the database).
+### ***2. UserController***
 
-- `GET /cart` → Shows cart items
-- `POST /cart/add` → Adds item with rental dates
-- `GET /cart/remove/{id}` → Removes item by product ID
+**Path:**
+`com.ehb.rental.rentalplatform.controller.UserController`
 
-Purpose: Provides required cart functionality for the proof-of-concept assignment.
+This controller manages **registration**, **validation**, and **secure password handling**.
+
+**Features:**
+
+* Strong password validation (uppercase + lowercase + digit + symbol)
+* Confirm password check
+* Prevent duplicate emails
+* Restrict registration to **@student.ehb.be**
+* BCrypt password hashing
+
+**Endpoints:**
+
+| Method | URL       | Description                       |
+| ------ | --------- | --------------------------------- |
+| GET    | /register | Displays registration form        |
+| POST   | /register | Validates input & creates account |
+
+**Validation Rules:**
+
+✔ Email must end with **@student.ehb.be**
+✔ Email must be unique
+✔ Password and confirm password must match
+✔ Password must be strong:
+
+* Minimum 8 characters
+* Contains uppercase letter
+* Contains lowercase letter
+* Contains number
+* Contains special character
 
 
 
-##  OrderController
-Handles checkout and order creation.
+### ***3. ProductController***
 
-- `GET /checkout` → Displays cart items
-- `POST /checkout/confirm`
-    - Creates an order
-    - Assigns products and rental dates
-    - Saves the order for the logged-in user
-    - Clears the cart
-- `GET /my-orders` → Shows the user's order history
+**Path:**
+`com.ehb.rental.rentalplatform.controller.ProductController`
 
-Purpose: Implements the complete checkout flow from cart → order.
+**Purpose:**
+Displays the product catalog and manages category-based filtering.
 
+**Endpoints:**
+
+| Method | URL       | Parameters         | Description                         |
+| ------ | --------- | ------------------ | ----------------------------------- |
+| GET    | /products | ?category=ID / all | Shows all products or filtered list |
+
+**Features:**
+
+* Handles full catalog & filtering in one unified endpoint
+* Sends `currentCategory` to the view to highlight dropdown selection
+
+
+
+### ***4. CartController***
+
+**Path:**
+`com.ehb.rental.rentalplatform.controller.CartController`
+
+**Purpose:**
+Implements required **session-based shopping cart** using `HttpSession`.
+
+**Endpoints:**
+
+| Method | URL               | Description                         |
+| ------ | ----------------- | ----------------------------------- |
+| GET    | /cart             | Shows current cart items            |
+| POST   | /cart/add         | Adds product + rental dates to cart |
+| GET    | /cart/remove/{id} | Removes product by ID               |
+
+**Details:**
+
+* Uses `CartItem` objects inside the session
+* Dates converted into `LocalDate`
+* Cart stored as `List<CartItem>`
+* Not saved to DB (matches POC requirements)
+
+
+
+### ***5. OrderController***
+
+**Path:**
+`com.ehb.rental.rentalplatform.controller.OrderController`
+
+**Purpose:**
+Handles checkout, order creation, and user order history.
+
+**Endpoints:**
+
+| Method | URL               | Description                             |
+| ------ | ----------------- | --------------------------------------- |
+| GET    | /checkout         | Displays cart items before confirming   |
+| POST   | /checkout/confirm | Creates order, saves to DB, clears cart |
+| GET    | /my-orders        | Lists all orders for the logged-in user |
+
+**Checkout Flow:**
+
+1. User views cart → `/checkout`
+2. Page shows items + rental dates
+3. Backend:
+
+    * Reads all cart items
+    * Extracts list of products
+    * Uses the first item's dates as rental period
+    * Gets logged-in user via Spring Security
+    * Saves new order using `OrderRepository`
+4. Cart is cleared
+5. User redirected to order confirmation page
+
+**Order Associations:**
+
+* Many-to-One with User
+* Many-to-Many with Products
+* Status always set to `"Confirmed"`
 
