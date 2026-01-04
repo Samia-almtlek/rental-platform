@@ -63,13 +63,17 @@ public class CartController {
 
 
     // delete an item from the cart
-    @GetMapping("/remove/{id}")
-    public String removeFromCart(@PathVariable Long id, HttpSession session) {
-        List<Product> cart = (List<Product>) session.getAttribute("cart");
+    @GetMapping("/remove/{productId}")
+    public String removeFromCart(@PathVariable Long productId, HttpSession session) {
+
+        List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
+
         if (cart != null) {
-            cart.removeIf(p -> p.getId().equals(id));
+            cart.removeIf(item -> item.getProduct().getId().equals(productId));
             session.setAttribute("cart", cart);
         }
+
         return "redirect:/cart";
     }
+
 }
